@@ -78,10 +78,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'salesdb',
+        'USER': 'salesuser',
+        'PASSWORD': 'salesuser',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {
+            'options': '-c search_path=salesuser'
+        }
     }
 }
+
 
 
 # Password validation
@@ -130,3 +138,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+INSTALLED_APPS += ['corsheaders']
+MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
+
+CORS_ALLOW_ALL_ORIGINS = True  # 開発用設定。商用は制限すべき
